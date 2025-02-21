@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.nlw.events.dto.SubscriptionResponse;
 import br.com.nlw.events.exeption.EventNotFoundException;
 import br.com.nlw.events.exeption.SubscriptionConflictException;
+import br.com.nlw.events.exeption.UserIndicatorNotFoundException;
 import br.com.nlw.events.model.Event;
 import br.com.nlw.events.model.Subscription;
 import br.com.nlw.events.model.User;
@@ -42,10 +43,17 @@ public class SubscriptionService {
 			System.out.println("\n ####new user: " + userRec);
 		}
 		
+		// findById já vem pronto do crudreposiotry
+		User indicador = userRepo.findById(userId).orElse(null);
+		if(indicador == null) {
+			throw new UserIndicatorNotFoundException("Usuário "+userId+" indicador não existe");
+		}
+		
 	  //montando o obj de inscrição
 		Subscription subs = new Subscription();
 		subs.setEvent(evt); //o evento recuperado na inscrição
 		subs.setSubscriber(userRec); //stribuir o usurio   como sendo o assinante
+		subs.setIndication(indicador);
 		
 		System.out.println("\n ####Event obj: " + userRec);
 		
@@ -58,7 +66,7 @@ public class SubscriptionService {
 		//montou o obj de evento
 		Subscription res = subRepo.save(subs);
 //		return res;
-		return  new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
+		return  new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/subscription/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
 	}
 }
 

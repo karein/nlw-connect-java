@@ -11,6 +11,7 @@ import br.com.nlw.events.dto.ErrorMessage;
 import br.com.nlw.events.dto.SubscriptionResponse;
 import br.com.nlw.events.exeption.EventNotFoundException;
 import br.com.nlw.events.exeption.SubscriptionConflictException;
+import br.com.nlw.events.exeption.UserIndicatorNotFoundException;
 import br.com.nlw.events.model.User;
 import br.com.nlw.events.service.SubscriptionService;
 
@@ -19,7 +20,7 @@ public class SubscriptionController {
 	@Autowired
 	private SubscriptionService service;
 	
-	@PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName/userId}"})
+	@PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName}/{userId}"})
 	// add ? no lugar de Subscription para não retornar erro de compatibilidade com o formato esperado na resposta
 	public ResponseEntity<?> createSubscription(
 			@PathVariable String prettyName, 
@@ -36,6 +37,8 @@ public class SubscriptionController {
 			return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
 		}catch(SubscriptionConflictException ex) {
 			return ResponseEntity.status(409).body(new ErrorMessage(ex.getMessage()));
+		}catch(UserIndicatorNotFoundException ex) {
+			return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
 		}
 		
 		return ResponseEntity.badRequest().build();	
