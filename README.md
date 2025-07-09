@@ -8,7 +8,7 @@ Junto ao Tomcat se terá o Spring Framework.
 
 framework -> estrutura pŕe fabricada. Já cuida de muito trabalho mecânico, como, gerenciamento de dados vindos de uma requisição url, como mandar os dados formatados etc.
 
-Java anotations -> informa ao framework o que ele deve fazer. São pequenas instruções java que comaçam com @ e não alteram a lógica do código mas, são usadas pelo framework e toma atitudes baseados no que foi informado.
+Java anotations -> iniciam com @. Informam ao framework o que ele deve fazer. São pequenas instruções java que comaçam com @ e não alteram a lógica do código mas, são usadas pelo framework e toma atitudes baseados no que foi informado.
 
 Classes Model -> São representações da estrutura do banco de dados
 
